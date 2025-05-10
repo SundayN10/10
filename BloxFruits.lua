@@ -1,5 +1,5 @@
 -- local function scary()
---     warn("❌ This script must only be executed from the offical SunnyDale Hub loader")
+--     warn("❌ This script must only be executed from the offical NoxHub loader")
 --         return
 --     end
 
@@ -36,7 +36,7 @@
 -- end
 -- _G._secondaryData = nil
 -- _G.__userKey = nil
-print("✅ Security verification passed. Loading SunnyDale Hub...")
+print("✅ Security verification passed. Loading NoxHub...")
 if game.PlaceId == 2753915549 then
 	World1 = true;
 elseif game.PlaceId == 4442272183 then
@@ -360,16 +360,16 @@ _G.Settings = {
 };
 (getgenv()).Load = function()
 	if readfile and writefile and isfile and isfolder then
-		if not isfolder("SunnyDale Hub") then
-			makefolder("SunnyDale Hub");
+		if not isfolder("NoxHub") then
+			makefolder("NoxHub");
 		end;
-		if not isfolder("SunnyDale Hub/Blox Fruits/") then
-			makefolder("SunnyDale Hub/Blox Fruits/");
+		if not isfolder("NoxHub/Blox Fruits/") then
+			makefolder("NoxHub/Blox Fruits/");
 		end;
-		if not isfile(("SunnyDale Hub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json")) then
-			writefile("SunnyDale Hub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json", (game:GetService("HttpService")):JSONEncode(_G.Settings));
+		if not isfile(("NoxHub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json")) then
+			writefile("NoxHub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json", (game:GetService("HttpService")):JSONEncode(_G.Settings));
 		else
-			local Decode = (game:GetService("HttpService")):JSONDecode(readfile("SunnyDale Hub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json"));
+			local Decode = (game:GetService("HttpService")):JSONDecode(readfile("NoxHub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json"));
 			for i, v in pairs(Decode) do
 				_G.Settings[i] = v;
 			end;
@@ -382,15 +382,15 @@ end;
 (getgenv()).SaveSetting = function()
 	if Update:SaveSettings() then
 		if readfile and writefile and isfile and isfolder then
-			if not isfile(("SunnyDale Hub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json")) then
+			if not isfile(("NoxHub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json")) then
 				(getgenv()).Load();
 			else
-				local Decode = (game:GetService("HttpService")):JSONDecode(readfile("SunnyDale Hub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json"));
+				local Decode = (game:GetService("HttpService")):JSONDecode(readfile("NoxHub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json"));
 				local Array = {};
 				for i, v in pairs(_G.Settings) do
 					Array[i] = v;
 				end;
-				writefile("SunnyDale Hub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json", (game:GetService("HttpService")):JSONEncode(Array));
+				writefile("NoxHub/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json", (game:GetService("HttpService")):JSONEncode(Array));
 			end;
 		else
 			return warn("Status : Undetected Executor");
@@ -406,7 +406,7 @@ spawn(function()
 	wait(1);
 	((require(game.ReplicatedStorage.Notification)).new("<Color=Purple>[ Welcome " .. game.Players.LocalPlayer.DisplayName .. " ]<Color=/>")):Display();
 	wait(1);
-	((require(game.ReplicatedStorage.Notification)).new("<Color=Yellow>[ Enjoy The Script ]<Color=/>")):Display();
+	((require(game.ReplicatedStorage.Notification)).new("<Color=Yellow>[ Enjoy for script ]<Color=/>")):Display();
 end);
 function CheckQuest()
 	MyLevel = (game:GetService("Players")).LocalPlayer.Data.Level.Value;
@@ -1792,6 +1792,26 @@ function InfAb()
 		((game:GetService("Players")).LocalPlayer.Character.HumanoidRootPart:FindFirstChild("Agility")):Destroy();
 	end;
 end;
+local LocalPlayer = (game:GetService("Players")).LocalPlayer;
+local originalstam = LocalPlayer.Character.Energy.Value;
+function infinitestam()
+	LocalPlayer.Character.Energy.Changed:connect(function()
+		if _G.Settings.LocalPlayer["Infinite Energy"] then
+			LocalPlayer.Character.Energy.Value = originalstam;
+		end;
+	end);
+end;
+spawn(function()
+	pcall(function()
+		while wait(0.1) do
+			if _G.Settings.LocalPlayer["Infinite Energy"] then
+				wait(0.1);
+				originalstam = LocalPlayer.Character.Energy.Value;
+				infinitestam();
+			end;
+		end;
+	end);
+end);
 spawn(function()
 	while wait() do
 		pcall(function()
