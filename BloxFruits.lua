@@ -1793,25 +1793,6 @@ function InfAb()
 	end;
 end;
 local LocalPlayer = (game:GetService("Players")).LocalPlayer;
-local originalstam = LocalPlayer.Character.Energy.Value;
-function infinitestam()
-	LocalPlayer.Character.Energy.Changed:connect(function()
-		if _G.Settings.LocalPlayer["Infinite Energy"] then
-			LocalPlayer.Character.Energy.Value = originalstam;
-		end;
-	end);
-end;
-spawn(function()
-	pcall(function()
-		while wait(0.1) do
-			if _G.Settings.LocalPlayer["Infinite Energy"] then
-				wait(0.1);
-				originalstam = LocalPlayer.Character.Energy.Value;
-				infinitestam();
-			end;
-		end;
-	end);
-end);
 spawn(function()
 	while wait() do
 		pcall(function()
